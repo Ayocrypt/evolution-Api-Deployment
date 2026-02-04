@@ -62,6 +62,15 @@ You create each piece as its own service and connect them with env vars. No Blue
    - **`AUTHENTICATION_API_KEY`** — e.g. `my-secret-api-key-123`
    - **`DATABASE_CONNECTION_URI`** — e.g. `postgresql://user:password@host/database?sslmode=require`
    - **`DATABASE_PROVIDER`** — e.g. `postgresql`
+   - **`CACHE_REDIS_ENABLED`** e.g `false`
+  
+     ```code
+     AUTHENTICATION_API_KEY=my-secret-api-key-123`
+     DATABASE_CONNECTION_URI=postgresql://user:password@host/database?sslmode=require
+     DATABASE_PROVIDER=postgresql
+     CACHE_REDIS_ENABLED=false
+
+     ```
 
    | Key | Value |
    |-----|--------|
