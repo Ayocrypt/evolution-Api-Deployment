@@ -6,90 +6,71 @@
 
 </div>
 
-## 🚀 Quick Deploy
+## 🚀 Quick Deploy on Render
 
-Deploy Evolution API with Manager UI in one click. Just paste the GitHub repo URL and these platforms will auto-detect `docker-compose.yml` and deploy everything automatically.
+**Render** lets you deploy from a **public GitHub repo** without needing your own GitHub account. This repo includes `render.yaml` which tells Render how to deploy everything automatically.
+
+### Steps:
+
+1. Go to [Render.com](https://render.com)
+2. Sign up or log in
+3. Click **"New +"** → **"Blueprint"** (⚠️ NOT "Web Service" - use Blueprint!)
+4. Paste this public repo URL: **`https://github.com/Ayocrypt/evolution-Api-Deployment`**
+5. Render will detect `render.yaml` and show you all services it will create
+6. Set your **`AUTHENTICATION_API_KEY`** when prompted (or add it later in environment variables)
+7. Click **"Apply"** — Render will build and deploy everything ✅
+
+**That's it!** Render will automatically:
+- Deploy Evolution API (from pre-built Docker image)
+- Build and deploy Manager UI (from source)
+- Create PostgreSQL database
+- Create Redis cache
+- Connect everything together
 
 ## ⚠️ Note About Manager UI
 
-Due to issues with the Evolution Manager UI Docker image, we've included the Manager UI source code directly in this repository. The code is **identical to the official Evolution Manager v2 repository** - no modifications, no differences. It will be built from source during deployment.
+Because of issues with the Evolution Manager UI Docker image, we ship the Manager UI source code in this repo. The code is **the same as the official Evolution Manager v2** — no changes. It’s built from source when you deploy.
 
 ## 📝 Configuration
 
-**Only one thing you need to change:**
+**Only one thing you must set:**
 
-Edit the `.env` file and update your API key:
+Your API key. In Render, add this environment variable:
 
-```env
-AUTHENTICATION_API_KEY=your-secure-api-key-here
-```
+- **`AUTHENTICATION_API_KEY`** = your secure API key
 
-**⚠️ Important:** Change `AUTHENTICATION_API_KEY` in production! The default key is not secure.
-
-## 🌐 Deploy on Cloud Platforms
-
-### Option 1: Railway (Recommended) 🚂
-
-1. Go to [Railway.app](https://railway.app)
-2. Click **"New Project"**
-3. Select **"Deploy from GitHub repo"**
-4. Paste this repo URL: `https://github.com/Ayocrypt/evolution-Api-Deployment`
-5. Railway will auto-detect `docker-compose.yml`
-6. Set your `AUTHENTICATION_API_KEY` in environment variables
-7. Click **"Deploy"** - Done! ✅
-
-### Option 2: Render.com
-
-1. Go to [Render.com](https://render.com)
-2. Click **"New +"** → **"Blueprint"**
-3. Connect your GitHub account
-4. Paste this repo URL: `https://github.com/Ayocrypt/evolution-Api-Deployment`
-5. Render will auto-detect `docker-compose.yml`
-6. Set your `AUTHENTICATION_API_KEY` in environment variables
-7. Click **"Apply"** - Done! ✅
-
-### Option 3: DigitalOcean App Platform
-
-1. Go to [DigitalOcean App Platform](https://cloud.digitalocean.com/apps)
-2. Click **"Create App"**
-3. Connect GitHub and select this repository
-4. DigitalOcean will auto-detect `docker-compose.yml`
-5. Set your `AUTHENTICATION_API_KEY` in environment variables
-6. Click **"Create Resources"** - Done! ✅
+**⚠️ Important:** Don’t use the default key in production. Set your own `AUTHENTICATION_API_KEY`.
 
 ## 📁 What's Included
 
-- **Evolution API** - WhatsApp API backend (pre-built Docker image)
-- **Manager UI** - Web interface (built from source, official codebase)
-- **PostgreSQL** - Database
-- **Redis** - Cache
+- **Evolution API** – WhatsApp API backend (pre-built Docker image)
+- **Manager UI** – Web interface (built from source, official codebase)
+- **PostgreSQL** – Database
+- **Redis** – Cache
 
 ## 🔧 Services
 
-- **API**: Port 8080
-- **Manager UI**: Port 3000
-- **PostgreSQL**: Port 5432
-- **Redis**: Port 6379
+- **API**: Port 8080  
+- **Manager UI**: Port 3000  
+- **PostgreSQL**: Port 5432  
+- **Redis**: Port 6379  
 
 ## 🐳 Deploy Locally (Optional)
 
 ```bash
-# Clone the repository
 git clone https://github.com/Ayocrypt/evolution-Api-Deployment.git
 cd evolution-Api-Deployment
-
-# Edit .env file - set your AUTHENTICATION_API_KEY
-# Then deploy
+# Edit .env — set AUTHENTICATION_API_KEY
 docker compose up -d
 ```
 
 ## 📚 Documentation
 
 - [Evolution API Docs](https://doc.evolution-api.com)
+- [Render Blueprint Docs](https://render.com/docs/infrastructure-as-code)
 
 ## 🆘 Support
 
-For issues and questions:
 - [Evolution API Discord](https://evolution-api.com/discord)
 - [GitHub Issues](https://github.com/EvolutionAPI/evolution-api/issues)
 
