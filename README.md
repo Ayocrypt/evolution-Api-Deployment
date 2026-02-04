@@ -34,7 +34,7 @@ Blueprint deploys the whole stack from `render.yaml` in one go. Render requires 
 
 ## Option 2: Run as separate Web Services (free, no card)
 
-You create each piece as its own service and connect them with env vars. No Blueprint, so **no card required**; use free tiers where available.
+You create each piece as its own service and connect them with env vars. No Blueprint, so **no card required**; use free tiers where available. **Redis is not needed for Option 2** — only PostgreSQL and the API (plus Manager) are required.
 
 ### 2.1 Create PostgreSQL
 
@@ -49,18 +49,7 @@ You create each piece as its own service and connect them with env vars. No Blue
 
 ---
 
-### 2.2 Create Redis
-
-1. In Render: **New +** → **Redis** (or **Key/Value** if that’s what’s available).
-2. Name it (e.g. `evolution-redis`), **Free** plan if offered.
-3. Create. Open the instance and copy the **Connection String** (e.g. `redis://...` or the URL Render shows).
-4. You’ll use this in the Evolution API as **`CACHE_REDIS_URI`**.
-
-If Render doesn’t offer free Redis, use a free Redis elsewhere (e.g. [Upstash](https://upstash.com)) and use that connection string for **`CACHE_REDIS_URI`**.
-
----
-
-### 2.3 Deploy Evolution API (Docker image)
+### 2.2 Deploy Evolution API (Docker image)
 
 1. **New +** → **Web Service**.
 2. Connect repo: **`https://github.com/Ayocrypt/evolution-Api-Deployment`** (or choose “Deploy an existing image” if your Render supports it).
@@ -69,7 +58,10 @@ If Render doesn’t offer free Redis, use a free Redis elsewhere (e.g. [Upstash]
    evoapicloud/evolution-api:latest
    ```
    If Render asks for “Docker image URL” or “Image”, paste that. If you must use the repo, set **Root Directory** to empty and ensure the service is set to **Docker** and the image above (some plans allow “Deploy from image”).
-4. Add **Environment Variables**:
+4. Add **Environment Variables**. **Compulsory** (must be set; sample values below):
+   - **`AUTHENTICATION_API_KEY`** — e.g. `my-secret-api-key-123`
+   - **`DATABASE_CONNECTION_URI`** — e.g. `postgresql://user:password@host/database?sslmode=require`
+   - **`DATABASE_PROVIDER`** — e.g. `postgresql`
 
    | Key | Value |
    |-----|--------|
@@ -77,13 +69,12 @@ If Render doesn’t offer free Redis, use a free Redis elsewhere (e.g. [Upstash]
    | `SERVER_PORT` | `8080` |
    | `SERVER_URL` | Your API URL (e.g. `https://evolution-api-xxxx.onrender.com`) — set after first deploy |
    | `CORS_ORIGIN` | `*` |
-   | `AUTHENTICATION_API_KEY` | Your secret API key |
+   | `AUTHENTICATION_API_KEY` | e.g. `my-secret-api-key-123` **(required)** |
    | `DATABASE_ENABLED` | `true` |
-   | `DATABASE_PROVIDER` | `postgresql` |
-   | `DATABASE_CONNECTION_URI` | **Paste the PostgreSQL connection string from 2.1** |
+   | `DATABASE_PROVIDER` | `postgresql` **(required)** |
+   | `DATABASE_CONNECTION_URI` | e.g. `postgresql://user:password@host/database?sslmode=require` **(required)** |
    | `DATABASE_CONNECTION_CLIENT_NAME` | `evolution_exchange` |
-   | `CACHE_REDIS_ENABLED` | `true` |
-   | `CACHE_REDIS_URI` | **Paste the Redis connection string from 2.2** |
+   | `CACHE_REDIS_ENABLED` | `false` |
    | `LOG_LEVEL` | `ERROR,WARN,INFO` |
    | `LOG_COLOR` | `true` |
 
@@ -91,25 +82,24 @@ If Render doesn’t offer free Redis, use a free Redis elsewhere (e.g. [Upstash]
 
 ---
 
-### 2.4 Deploy Manager UI (Web Service from repo)
+### 2.3 Deploy Manager UI (Web Service from repo)
 
 1. **New +** → **Web Service**.
 2. Connect repo: **`https://github.com/Ayocrypt/evolution-Api-Deployment`**
 3. **Root Directory:** `evolution-manager-v2` (so Render uses the Dockerfile inside that folder).
 4. Build: **Docker**. Render will use `evolution-manager-v2/Dockerfile`.
 5. Env: `NODE_ENV` = `production` (optional).
-6. Deploy. When it’s live, open the Manager URL and in the UI set the **API URL** to your Evolution API URL (the one from 2.3) and the same **API key** as **`AUTHENTICATION_API_KEY`**.
+6. Deploy. When it’s live, open the Manager URL and in the UI set the **API URL** to your Evolution API URL (the one from 2.2) and the same **API key** as **`AUTHENTICATION_API_KEY`**.
 
 ---
 
 ### Summary (Option 2)
 
 - **PostgreSQL** → get **Internal Database URL** → use as **`DATABASE_CONNECTION_URI`** in API.
-- **Redis** → get connection string → use as **`CACHE_REDIS_URI`** in API.
-- **Evolution API** → image **`evoapicloud/evolution-api:latest`** + env vars above (including DB and Redis URLs).
+- **Evolution API** → image **`evoapicloud/evolution-api:latest`** + env vars above (no Redis; set **`CACHE_REDIS_ENABLED`** = `false`).
 - **Manager** → repo, Root Directory **`evolution-manager-v2`**, Docker build; then in the Manager UI set API URL and key.
 
-That’s all you need for the full app without Blueprint.
+That’s all you need for the full app without Blueprint (PostgreSQL + API + Manager only; Redis not used).
 
 ---
 
