@@ -63,6 +63,6 @@ services:
 databases:
   # PostgreSQL Database
   - name: evolution-postgres
-    databaseName: postgres
-    user: postgres
+    databaseName: evolution_db
+    user: evolution_user
     plan: free
