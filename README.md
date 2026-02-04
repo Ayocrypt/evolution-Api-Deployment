@@ -30,6 +30,40 @@ AUTHENTICATION_API_KEY=your-secure-api-key-here
 
 ## 🌐 Deploy on Railway
 
+### Option 1: Using Railway CLI (No GitHub Required) ⭐ Recommended
+
+1. **Install Railway CLI**
+   ```bash
+   # Windows (PowerShell)
+   iwr https://railway.app/install.ps1 | iex
+   
+   # Mac/Linux
+   curl -fsSL https://railway.app/install.sh | sh
+   ```
+
+2. **Login to Railway**
+   ```bash
+   railway login
+   ```
+
+3. **Deploy**
+   ```bash
+   # Clone this repository
+   git clone https://github.com/Ayocrypt/evolution-Api-Deployment.git
+   cd evolution-Api-Deployment
+   
+   # Edit .env file - set your AUTHENTICATION_API_KEY
+   
+   # Deploy using Railway CLI
+   railway up
+   ```
+
+4. **Set Environment Variables**
+   - Railway CLI will prompt you to set environment variables
+   - Or set them via Railway dashboard after deployment
+
+### Option 2: Using Railway Web (Requires GitHub)
+
 1. **Push to GitHub**
    - Push this repository to your GitHub account
 
@@ -54,12 +88,45 @@ AUTHENTICATION_API_KEY=your-secure-api-key-here
    - **API**: Your Railway URL (port 8080)
    - **Manager UI**: Your Railway URL (port 3000)
 
+## 🌐 Alternative Platforms (No GitHub Required)
+
+### Render.com
+
+1. **Create Account** at [Render.com](https://render.com)
+2. **New Blueprint** - Upload `docker-compose.yml` file
+3. **Set Environment Variables** from `.env` file
+4. **Deploy** - Render will handle everything
+
+### Fly.io
+
+1. **Install Fly CLI**
+   ```bash
+   # Windows
+   powershell -Command "iwr https://fly.io/install.ps1 -useb | iex"
+   
+   # Mac/Linux
+   curl -L https://fly.io/install.sh | sh
+   ```
+
+2. **Login and Deploy**
+   ```bash
+   fly auth login
+   fly launch
+   ```
+
+### DigitalOcean App Platform
+
+1. **Create Account** at [DigitalOcean](https://www.digitalocean.com)
+2. **Create App** - Upload `docker-compose.yml`
+3. **Configure** environment variables
+4. **Deploy**
+
 ## 🐳 Deploy Locally
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
-cd evolution-deployment
+git clone https://github.com/Ayocrypt/evolution-Api-Deployment.git
+cd evolution-Api-Deployment
 
 # Edit .env file - set your AUTHENTICATION_API_KEY
 # Then deploy
