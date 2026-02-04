@@ -34,7 +34,7 @@ Blueprint deploys the whole stack from `render.yaml` in one go. Render requires 
 
 ## Option 2: Run as separate Web Services (free, no card)
 
-You create each piece as its own service and connect them with env vars. No Blueprint, so **no card required**; use free tiers where available. **Redis is not needed for Option 2** — only PostgreSQL and the API (plus Manager) are required.
+You need **3 things**: **(1) PostgreSQL**, **(2) Evolution API**, **(3) Manager UI**. No Blueprint, so **no card required**; use free tiers where available. **Redis is not needed** — only these three.
 
 ### 2.1 Create PostgreSQL
 
@@ -91,24 +91,27 @@ You create each piece as its own service and connect them with env vars. No Blue
 
 ---
 
-### 2.3 Deploy Manager UI (Web Service from repo)
+### 2.3 Deploy Manager UI
 
-1. **New +** → **Web Service**.
-2. Connect repo: **`https://github.com/Ayocrypt/evolution-Api-Deployment`**
-3. **Root Directory:** `evolution-manager-v2` (so Render uses the Dockerfile inside that folder).
-4. Build: **Docker**. Render will use `evolution-manager-v2/Dockerfile`.
-5. Env: `NODE_ENV` = `production` (optional).
-6. Deploy. When it’s live, open the Manager URL and in the UI set the **API URL** to your Evolution API URL (the one from 2.2) and the same **API key** as **`AUTHENTICATION_API_KEY`**.
+Manager UI is here: [evolution-manager-v2](https://github.com/Ayocrypt/evolution-Api-Deployment/tree/main/evolution-manager-v2).
+
+Super simple: **New +** → **Web Service** → connect **public repo** and paste:
+
+```text
+https://github.com/Ayocrypt/evolution-Api-Deployment
+```
+
+Set **Root Directory** to `evolution-manager-v2`. Deploy and wait until it’s done. Then open the Manager URL and set the **API URL** (your Evolution API from step 2.2) and the same **API key** as **`AUTHENTICATION_API_KEY`**.
 
 ---
 
 ### Summary (Option 2)
 
-- **PostgreSQL** → get **Internal Database URL** → use as **`DATABASE_CONNECTION_URI`** in API.
-- **Evolution API** → image **`evoapicloud/evolution-api:latest`** + env vars above (no Redis; set **`CACHE_REDIS_ENABLED`** = `false`).
-- **Manager** → repo, Root Directory **`evolution-manager-v2`**, Docker build; then in the Manager UI set API URL and key.
+1. **PostgreSQL** → get Internal Database URL → use as **`DATABASE_CONNECTION_URI`** in the API.
+2. **Evolution API** → image **`evoapicloud/evolution-api:latest`** + env vars above (no Redis).
+3. **Manager UI** → public repo **`https://github.com/Ayocrypt/evolution-Api-Deployment`**, Root Directory **`evolution-manager-v2`**; wait until done, then set API URL and key in the UI.
 
-That’s all you need for the full app without Blueprint (PostgreSQL + API + Manager only; Redis not used).
+That’s all — 3 steps, no Redis.
 
 ---
 
