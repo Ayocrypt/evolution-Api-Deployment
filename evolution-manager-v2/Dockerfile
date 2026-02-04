@@ -1,43 +1,19 @@
-FROM node:20-alpine as build-deps
+# Build
+FROM node:20-alpine AS build
 WORKDIR /usr/src/app
 
-# Copy package files
 COPY package*.json ./
+RUN npm ci --ignore-scripts
 
-# Install dependencies without running prepare scripts
-RUN echo "Iniciando install..." && \
-    npm ci --ignore-scripts && \
-    echo "Install concluído."
-
-# Copy source code
 COPY src/ ./src/
-COPY tsconfig.json ./
-COPY tsconfig.app.json ./
-COPY tsconfig.node.json ./
-COPY vite.config.ts ./
-COPY postcss.config.js ./
-COPY tailwind.config.js ./
-COPY index.html ./
-COPY components.json ./
+COPY tsconfig.json tsconfig.app.json tsconfig.node.json vite.config.ts ./
+COPY postcss.config.js tailwind.config.js index.html components.json ./
 COPY public/ ./public/
+RUN npm run build
 
-# Build the application
-RUN echo "Iniciando build..." && \
-    npm run build && \
-    echo "Build concluído."
-
-FROM nginx:alpine
-
-ENV PUBLIC_HTML=/usr/share/nginx/html
-
-RUN rm /etc/nginx/conf.d/default.conf
-
-COPY .docker/nginx.conf /etc/nginx/conf.d/
-
-COPY .docker/start.sh /
-
-COPY --from=build-deps /usr/src/app/dist ${PUBLIC_HTML}
-
+# Serve (no nginx – Node serves the static files)
+FROM node:20-alpine
+WORKDIR /app
+COPY --from=build /usr/src/app/dist .
 EXPOSE 80
-
-ENTRYPOINT [ "/bin/sh", "/start.sh" ]
+CMD ["npx", "-y", "serve", "-s", ".", "-l", "80"]
