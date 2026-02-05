@@ -46,7 +46,7 @@ That’s it — Evolution API is now connected to [whatsapp.ai4africa.app](https
 
 ## Videos
 
-Click the thumbnails to watch on Loom.
+Click the thumbnails to watch on Loom. *If a video stops after a few seconds or won’t play,* open it in Loom → **Share** → set to **Anyone with the link** and turn off any preview/time limit.
 
 **1. Complete setup for Option 2** — PostgreSQL → Evolution API → Manager UI on Render
 
