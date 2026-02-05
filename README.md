@@ -1,7 +1,7 @@
 # Connect Evolution API to [whatsapp.ai4africa.app](https://whatsapp.ai4africa.app)
 
 <div align="center">
-  <img src="https://cdn.jsdelivr.net/gh/Ayocrypt/Js-delivery-inages/ai4africaLogo.jpg" width="140" alt="WhatsApp AI4Africa" />
+  <img src="https://cdn.jsdelivr.net/gh/Ayocrypt/Js-delivery-inages/ai4africaLogo.jpg" width="90" alt="WhatsApp AI4Africa" />
   <span style="margin: 0 12px; font-size: 24px;">→</span>
   <img src="evolution-manager-v2/public/assets/images/evolution-logo.png" width="140" alt="Evolution API" />
 </div>
