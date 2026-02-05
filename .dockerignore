@@ -1,7 +1,0 @@
-# Only need evolution-manager-v2 for this Dockerfile
-.git
-.env
-.env.*
-*.md
-docker-compose.yml
-render.yaml

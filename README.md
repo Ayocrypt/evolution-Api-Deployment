@@ -44,6 +44,20 @@ That’s it — Evolution API is now connected to [whatsapp.ai4africa.app](https
 
 ---
 
+## Videos
+
+Click the thumbnails to watch on Loom.
+
+**1. Complete setup for Option 2** — PostgreSQL → Evolution API → Manager UI on Render
+
+[![Complete setup for Option 2](https://cdn.loom.com/sessions/thumbnails/67de2acbf898454781f98f879365968c-c721fce55fda66df.gif)](https://www.loom.com/share/67de2acbf898454781f98f879365968c)
+
+**2. Full testing on WhatsApp** — End-to-end test: connect and use Evolution API with WhatsApp
+
+[![Full testing on WhatsApp](https://cdn.loom.com/assets/img/og/slack-protected-video.gif)](https://www.loom.com/share/760b4f18e5554a11bfca0752a28e9055)
+
+---
+
 ## Step 1: Full stack (Blueprint, requires card)
 
 One deploy from `render.yaml`; Render creates API, Manager, PostgreSQL, and Redis and links them.
@@ -63,7 +77,9 @@ No Redis. You create **3 things**: **(1) PostgreSQL**, **(2) Evolution API**, **
 ### 2.1 PostgreSQL
 
 1. Render → **New +** → **PostgreSQL**.
-2. Name (e.g. `evolution-postgres`), region, **Free** plan → Create.
+2. Name (e.g. `evolution-postgres`), region, **Free** plan → Create.( Wait for at least 1 to 2 mins until you see available status
+<img width="414" height="176" alt="image" src="https://github.com/user-attachments/assets/fe6e5385-9ffc-4876-adbd-5887b85cd34e" />
+
 3. Open the DB and copy the **Internal Database URL** (e.g. `postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require`).
 4. You’ll use this as **`DATABASE_CONNECTION_URI`** in the API.
 
@@ -76,8 +92,8 @@ No Redis. You create **3 things**: **(1) PostgreSQL**, **(2) Evolution API**, **
    ```
 3. **Add Environment Variables.** **Compulsory** (must be set; sample values below):
 
-   - **`AUTHENTICATION_API_KEY`** — e.g. `my-secret-api-key-123`
-   - **`DATABASE_CONNECTION_URI`** — e.g. `postgresql://user:password@host/database?sslmode=require`
+   - **`AUTHENTICATION_API_KEY`** — e.g. `my-secret-api-key-123` # do not use this in production please change this to whatever you can remeber
+   - **`DATABASE_CONNECTION_URI`** — e.g. `postgresql://user:password@host/database?sslmode=require` # this will be given to you in step 1
    - **`DATABASE_PROVIDER`** — e.g. `postgresql`
    - **`CACHE_REDIS_ENABLED`** — e.g. `false`
 
@@ -105,15 +121,37 @@ No Redis. You create **3 things**: **(1) PostgreSQL**, **(2) Evolution API**, **
    | `LOG_LEVEL` | `ERROR,WARN,INFO` |
    | `LOG_COLOR` | `true` |
 
-4. Deploy. When live, set **`SERVER_URL`** to that URL (e.g. `https://your-evolution-api.onrender.com`).
+you will see
+
+<img width="690" height="295" alt="image" src="https://github.com/user-attachments/assets/f2db728d-35e4-42ce-8d11-aafaba02fcac" />
+
+wait for at least 3-10 mins  till you see live status
+
+<img width="722" height="353" alt="image" src="https://github.com/user-attachments/assets/603f9e63-8d45-452d-aa12-48a6752d75b7" />
+
+
+
+
 
 ### 2.3 Manager UI
 
 1. **New +** → **Web Service** → connect **public repo**:
    ```text
-   https://github.com/Ayocrypt/evolution-Api-Deployment
+   https://github.com/Ayocrypt/evolution-Api-Deployment/tree/main/evolution-manager-v2
    ```
-2. **Root Directory:** `evolution-manager-v2` → Deploy and wait.
+
+   you will see `building` then `in progress`
+   
+   <img width="691" height="299" alt="image" src="https://github.com/user-attachments/assets/da4f684b-baf5-412a-96c1-efeedfe741d2" />
+
+
+   wailt till you see `live ` Status this may take about 5 - 10 min
+   
+   <img width="675" height="301" alt="image" src="https://github.com/user-attachments/assets/887e38d5-0594-4a02-8e46-a2fd1bd5d041" />
+
+
+   
+
 3. Open the Manager URL → set **API URL** (your Evolution API URL from 2.2) and **API key** (same as `AUTHENTICATION_API_KEY`).
 
 **Summary:** PostgreSQL → Evolution API (image + env) → Manager UI (repo + root dir). No Redis.
